@@ -410,7 +410,7 @@ chatForm.addEventListener("submit", async (e) => {
   userInput.value = "";
   toggleInput(false);
 
-  // Se for uma pergunta sobre o Dev/Escopo local, responde com os tópicos humanizados
+  // 1. Se for uma pergunta sobre o Dev (Escopo Local), responde direto
   if (localReply) {
     setTimeout(() => {
       appendMessage("bot", localReply);
@@ -420,17 +420,20 @@ chatForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  // Se NÃO for do escopo E o usuário NÃO tiver chave de API conectada:
+  // 2. Se NÃO for do escopo E o usuário NÃO tiver chave de API conectada:
   if (!activeKey) {
     setTimeout(() => {
-      appendMessage("bot", "Não posso ajudar com isso, mas se conectar uma chave API no menu superior, conseguirei!");
+      appendMessage(
+        "bot", 
+        "Essa pergunta foge um pouco do meu foco principal (que é falar sobre a carreira e os projetos do Renan Jyun). Para conversas gerais e outras dúvidas, clique no botão ( Configurar API ) no menu superior e adicione sua chave de API!"
+      );
       toggleInput(true);
       userInput.focus();
     }, 250);
     return;
   }
 
-  // Se não for do escopo, mas O USUÁRIO TEM CHAVE DE API, ele processa via API externa
+  // 3. Se não for do escopo, mas O USUÁRIO TEM CHAVE DE API, processa via API externa
   conversationHistory.push({ role: "user", content: text });
   const typingElem = appendTypingIndicator();
 
