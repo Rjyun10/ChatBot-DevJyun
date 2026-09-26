@@ -95,7 +95,7 @@ const DEV_DATA = {
 
 const PROMPT_DEV_JYUN = `
 Você é o JYUN.ai, o assistente virtual oficial do desenvolvedor Renan Jyun (Dev JYUN).
-Sua missão é responder aos usuários de forma inteligente, amigável e técnica.
+Sua personalidade é humana, amigável, prestativa, comunicativa e com um toque descontraído de quem entende de tecnologia e cultura geek/cyberpunk. Fale como se estivesse batendo um papo legal com alguém interessado no trabalho do Renan.
 
 Informações oficiais sobre o Dev JYUN:
 - Nome Completo: ${DEV_DATA.nome}
@@ -114,7 +114,7 @@ Informações oficiais sobre o Dev JYUN:
 - Perfil no GitHub: ${DEV_DATA.github}
 - Formulário de Contato: ${DEV_DATA.contato}
 
-Regra Estrita de Formatação: NÃO use formatação Markdown em suas respostas. NUNCA use asteriscos (* ou **), hashtags (# ou ###), ou underlines (_). Responda apenas com texto limpo, usando hífens simples (-) para listas. SEMPRE insira uma quebra de linha após cada item.
+Regra Estrita de Formatação: NÃO use formatação Markdown nas respostas. NUNCA use asteriscos (* ou **), hashtags (# ou ###), ou underlines (_). Responda de forma humanizada e fluida, introduzindo o assunto de maneira natural e usando hífens simples (-) apenas para organizar os pontos principais em tópicos. Sempre insira quebras de linha após cada item.
 `;
 
 function checkDevQuestionsLocal(text) {
@@ -124,6 +124,19 @@ function checkDevQuestionsLocal(text) {
     .replace(/[\u0300-\u036f]/g, "");
 
   const match = (keywords) => keywords.some(k => query.includes(k));
+
+  // 1. FILTRO DE SEGURANÇA: BLOQUEIO DE ASSUNTOS PESSOAIS / ÍNTIMOS
+  const personalKeywords = [
+    "namorada", "namorado", "casado", "solteiro", "relacionamento", "esposa", "marido", 
+    "idade", "quantos anos ele tem", "onde ele mora", "endereco", "endereço", "bairro", "cidade onde", 
+    "telefone pessoal", "whatsapp pessoal", "zap", "cpf", "rg", "documento", "familia", "pais", 
+    "mae", "pai", "irmao", "filhos", "filho", "filha", "religiao", "politica", "voto", "partido", 
+    "fofoca", "vida privada", "vida pessoal", "intimidade", "segredo", "quanto ele ganha", "salario"
+  ];
+
+  if (match(personalKeywords)) {
+    return "Desculpe, mas não posso fornecer informações sobre a vida pessoal ou privada do Jyun. Meu objetivo aqui é focar exclusivamente em sua trajetória profissional, portfólio, projetos e tecnologias. Se tiver alguma dúvida sobre o trabalho dele, é só perguntar!";
+  }
 
   const globalDevKeywords = [
     "dev", "renan", "jyun", "rjyun10", "desenvolvedor", "web developer", "front-end", "frontend", "criador", 
@@ -155,66 +168,66 @@ function checkDevQuestionsLocal(text) {
 
   // 1. TUDO SOBRE O DEV / RELATÓRIO COMPLETO
   if (match(["tudo sobre", "tudo do dev", "todas as informacoes", "fale tudo", "me diga tudo", "tudo dele", "relatorio completo"])) {
-    return `Relatório Completo do Dev JYUN:\n- Nome: ${DEV_DATA.nome}\n- Função: ${DEV_DATA.funcao}\n- Experiência: ${DEV_DATA.experiencia}\n- Stack: ${DEV_DATA.stack}\n- Princípios: ${DEV_DATA.principios}\n- Hard Skills: ${DEV_DATA.hardSkills}\n- Soft Skills: ${DEV_DATA.softSkills}\n- UI/UX: ${DEV_DATA.uiux}\n- SEO e Performance: ${DEV_DATA.seoPerformance}\n- Serviços: ${DEV_DATA.servicos}\n- Modalidade: ${DEV_DATA.contratacao}\n- Portfólio: ${DEV_DATA.portfolio}\n- GitHub: ${DEV_DATA.github}\n- Contato: ${DEV_DATA.contato}\n`;
+    return `Com certeza! Posso te passar uma visão geral completa sobre o trabalho e a trajetória do Renan. Dá uma olhada nos pontos principais:\n\n- Nome: ${DEV_DATA.nome}\n- Função: ${DEV_DATA.funcao}\n- Experiência: ${DEV_DATA.experiencia}\n- Stack Principal: ${DEV_DATA.stack}\n- Princípios: ${DEV_DATA.principios}\n- Hard Skills: ${DEV_DATA.hardSkills}\n- Soft Skills: ${DEV_DATA.softSkills}\n- UI/UX: ${DEV_DATA.uiux}\n- SEO e Performance: ${DEV_DATA.seoPerformance}\n- Serviços: ${DEV_DATA.servicos}\n- Disponibilidade: ${DEV_DATA.contratacao}\n- Portfólio: ${DEV_DATA.portfolio}\n- GitHub: ${DEV_DATA.github}\n- Contato Direto: ${DEV_DATA.contato}\n\nSe quiser aprofundar em alguma dessas áreas, é só me falar!`;
   }
 
   // 2. CONTATO / EMAIL / FALA / PROPOSTA / MENSAGEM / ORÇAMENTO
   if (match(["contato", "email", "e-mail", "falar", "mensagem", "orcamento", "parceria", "parcerias", "proposta", "contratar", "formulario", "form"])) {
-    return `Para entrar em contato diretamente com o Renan Jyun, utilize o formulário oficial no link abaixo:\n- Formulário de Contato: ${DEV_DATA.contato}\n`;
+    return `Se você quiser trocar uma ideia, mandar uma proposta ou solicitar um orçamento, o melhor caminho é falar direto com ele por aqui:\n\n- Formulário de Contato: ${DEV_DATA.contato}\n\nEle costuma responder rápido, pode mandar mensagem!`;
   }
 
   // 3. NOME / IDENTIFICAÇÃO / CRIADOR / SOBRE VOCÊ
   if (match(["nome", "quem e voce", "seu nome", "como te chamo", "criador", "autor", "dono", "rjyun10", "jyun.ai"])) {
-    return `Identificação do Assistente e Desenvolvedor:\n- Assistente: JYUN.ai\n- Desenvolvedor: ${DEV_DATA.nome}\n- Função: ${DEV_DATA.funcao}\n`;
+    return `Eu sou o JYUN.ai, o assistente virtual criado para representar o trabalho do Renan. Para você saber com quem está lidando:\n\n- Assistente: JYUN.ai (versão 2.0)\n- Desenvolvedor Responsável: ${DEV_DATA.nome}\n- Especialidade: ${DEV_DATA.funcao}\n\nEstou sempre por aqui para te ajudar a conhecer melhor os projetos dele!`;
   }
 
   // 4. STACK / TECNOLOGIAS / LINGUAGENS / FERRAMENTAS
   if (match(["stack", "tecnologia", "tecnologias", "ferramentas", "linguagem", "linguagens", "html", "html5", "css", "css3", "javascript", "js", "es6", "bootstrap", "fetch", "json", "dom"])) {
-    return `Stack Tecnológica do Dev JYUN:\n- ${DEV_DATA.stack}\n`;
+    return `O Renan curte bastante trabalhar com tecnologias modernas focadas em criar interfaces fluidas e limpas. A stack principal dele engloba:\n\n- ${DEV_DATA.stack}\n\nEle foca bastante em escrever um código que seja fácil de manter e escalar.`;
   }
 
   // 5. PRINCÍPIOS / CLEAN CODE / METODOLOGIAS / BOAS PRÁTICAS
   if (match(["principio", "principios", "clean code", "limpo", "boas praticas", "metodologia", "solid", "componentizacao", "mobile-first", "mobile first", "a11y"])) {
-    return `Princípios e Boas Práticas:\n- ${DEV_DATA.principios}\n`;
+    return `Quando o assunto é escrever código, o Renan leva muito a sério boas práticas e organização. Os pilares dele são:\n\n- ${DEV_DATA.principios}\n\nA ideia é sempre entregar um produto que funcione bem em qualquer tela e seja agradável de dar manutenção.`;
   }
 
   // 6. SOFT SKILLS, HARD SKILLS & HABILIDADES
   if (match(["skill", "skills", "soft", "softskill", "softskills", "hard", "hardskill", "hardskills", "competencias", "qualidades", "habilidade", "habilidades", "versionamento"])) {
-    return `Competências do Desenvolvedor:\n- Hard Skills: ${DEV_DATA.hardSkills}\n- Soft Skills: ${DEV_DATA.softSkills}\n`;
+    return `O Renan equilibra muito bem a parte técnica com a parte de comunicação e resolução de problemas. Veja as competências dele:\n\n- Hard Skills: ${DEV_DATA.hardSkills}\n- Soft Skills: ${DEV_DATA.softSkills}\n\nEssa combinação ajuda muito no dia a dia de desenvolvimento e em trabalhos em equipe.`;
   }
 
   // 7. UI / UX / DESIGN / ESTILO / TEMA
   if (match(["ui", "ux", "design", "interface", "interfaces", "acessibilidade", "usabilidade", "estilo", "tema", "tematica", "cyberpunk", "dark mode", "darkmode"])) {
-    return `Design e Experiência do Usuário (UI/UX):\n- ${DEV_DATA.uiux}\n`;
+    return `O visual é uma das partes que ele mais capricha! Ele foca muito em entregar experiências marcantes:\n\n- ${DEV_DATA.uiux}\n\nExemplo disso é este próprio chat, que traz essa pegada futurista e imersiva.`;
   }
 
   // 8. SEO / PERFORMANCE / DESEMPENHO
   if (match(["seo", "performance", "desempenho", "velocidade", "carregamento", "semantica", "motores de busca"])) {
-    return `Otimização e SEO:\n- ${DEV_DATA.seoPerformance}\n`;
+    return `Não basta apenas ser bonito, tem que voar! Nos projetos dele, o Renan se preocupa bastante com:\n\n- ${DEV_DATA.seoPerformance}\n\nIsso garante que o site carregue rápido e seja amigável para buscadores.`;
   }
 
   // 9. GITHUB / REPOSITÓRIO / CÓDIGO FONTE
   if (match(["github", "git", "repositorio", "codigo"])) {
-    return `Perfil do Dev Jyun no GitHub:\n- Perfil: ${DEV_DATA.github}\n`;
+    return `Quer dar uma olhada nos códigos e projetos que ele desenvolve? Você pode conferir diretamente no perfil dele:\n\n- Perfil no GitHub: ${DEV_DATA.github}\n\nTem bastante coisa legal por lá!`;
   }
 
   // 10. PORTFÓLIO / SITE / PROJETOS / LINKS
   if (match(["portfolio", "portfólio", "site", "sites", "web", "projeto", "projetos", "link", "links"])) {
-    return `Portfólio do Desenvolvedor:\n- Link: ${DEV_DATA.portfolio}\n`;
+    return `Para conhecer os trabalhos, aplicações e projetos criados por ele, o melhor lugar é acessar o portfólio oficial:\n\n- Portfólio Web: ${DEV_DATA.portfolio}\n\nDá uma olhada lá que vale a pena!`;
   }
 
   // 11. SERVIÇOS / FREELANCE / MODALIDADE DE CONTRATAÇÃO
   if (match(["servico", "servicos", "faz", "fazer", "freelance", "freelancer", "pj", "clt", "landing page", "landing pages", "manutencao", "contratacao", "modalidade"])) {
-    return `Serviços Oferecidos e Modalidade:\n- Serviços: ${DEV_DATA.servicos}\n- Modalidade: ${DEV_DATA.contratacao}\n`;
+    return `Sim, ele está super ativo no mercado! Veja em que tipo de frentes ele pode ajudar:\n\n- Serviços Oferecidos: ${DEV_DATA.servicos}\n- Modalidade de Contratação: ${DEV_DATA.contratacao}\n\nSe tiver um projeto em mente, vale a pena chamar ele para conversar.`;
   }
 
   // 12. EXPERIÊNCIA / ANOS / CARREIRA
   if (match(["experiencia", "experiencias", "anos", "estudo", "estudos", "carreira", "tempo"])) {
-    return `Experiência do Desenvolvedor:\n- ${DEV_DATA.experiencia}\n`;
+    return `O Renan vem se dedicando firme à programação há algum tempo:\n\n- ${DEV_DATA.experiencia}\n\nNesse período ele focou bastante em evoluir suas habilidades e entregar soluções reais.`;
   }
 
   // 13. RESUMO GERAL
-  return `Informações do Dev JYUN:\n- Nome: ${DEV_DATA.nome}\n- Função: ${DEV_DATA.funcao}\n- Experiência: ${DEV_DATA.experiencia}\n- Stack: ${DEV_DATA.stack}\n- Portfólio: ${DEV_DATA.portfolio}\n- GitHub: ${DEV_DATA.github}\n- Contato: ${DEV_DATA.contato}\n`;
+  return `Resumindo rapidinho quem é o desenvolvedor por trás disso tudo:\n\n- Nome: ${DEV_DATA.nome}\n- Função: ${DEV_DATA.funcao}\n- Experiência: ${DEV_DATA.experiencia}\n- Stack: ${DEV_DATA.stack}\n- Portfólio: ${DEV_DATA.portfolio}\n- GitHub: ${DEV_DATA.github}\n- Contato: ${DEV_DATA.contato}\n\nSe quiser saber de algo mais específico, é só mandar a pergunta!`;
 }
 
 // ==========================================================
@@ -397,6 +410,7 @@ chatForm.addEventListener("submit", async (e) => {
   userInput.value = "";
   toggleInput(false);
 
+  // Se for uma pergunta sobre o Dev/Escopo local, responde com os tópicos humanizados
   if (localReply) {
     setTimeout(() => {
       appendMessage("bot", localReply);
@@ -406,16 +420,17 @@ chatForm.addEventListener("submit", async (e) => {
     return;
   }
 
+  // Se NÃO for do escopo E o usuário NÃO tiver chave de API conectada:
   if (!activeKey) {
-    showSystemNotice(
-      "Chave API Ausente", 
-      `Para perguntas gerais, insira sua chave de API para o provedor <strong>${PROVIDERS[currentProvider].label}</strong> no menu de configurações.<br><br><em>Dica: Você pode perguntar sobre o Dev sem precisar de chave!</em>`
-    );
-    toggleInput(true);
-    userInput.focus();
+    setTimeout(() => {
+      appendMessage("bot", "Não posso ajudar com isso, mas se conectar uma chave API no menu superior, conseguirei!");
+      toggleInput(true);
+      userInput.focus();
+    }, 250);
     return;
   }
 
+  // Se não for do escopo, mas O USUÁRIO TEM CHAVE DE API, ele processa via API externa
   conversationHistory.push({ role: "user", content: text });
   const typingElem = appendTypingIndicator();
 
