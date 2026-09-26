@@ -21,7 +21,7 @@ body {
   font-family: 'Fira Code', monospace;
 }
 
-/* Canvas da Animação estilo Matrix / Cachoeira */
+/* Canvas da Animação estilo Matrix */
 #matrixCanvas {
   position: fixed;
   top: 0;
@@ -29,14 +29,19 @@ body {
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  opacity: 0.35;
+  opacity: 0.5;
   pointer-events: none;
 }
 
-/* Custom Navbar */
+/* Custom Navbar (Semitransparente e Borrado) */
 .navbar-custom {
-  background: rgba(3, 7, 18, 0.85);
-  backdrop-filter: blur(10px);
+  background: rgba(3, 7, 18, 0.45) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 242, 254, 0.12) !important;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .brand-tag {
@@ -67,6 +72,8 @@ body {
 .btn-outline-cyan {
   border: 1px solid var(--cyan-main);
   color: var(--cyan-main);
+  background: transparent;
+  transition: all 0.2s ease;
 }
 
 .btn-outline-cyan:hover {
@@ -75,19 +82,46 @@ body {
   box-shadow: 0 0 10px var(--cyan-glow);
 }
 
-/* Card Principal do Chat */
+/* Card do Chat Estilo WhatsApp / Gemini (Altura Fixa e Rolagem Interna) */
 .chat-card {
   max-width: 850px;
-  max-height: 80vh;
+  height: 72vh; /* Define a altura total do painel de chat */
   background: var(--card-bg) !important;
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-color) !important;
   border-radius: 16px;
+  overflow: hidden;
 }
 
+/* Área Interna Exclusiva para Mensagens com Rolagem */
 #chatMessages {
-  max-height: 550px;
-  min-height: 300px;
+  height: 100%;
+  overflow-y: auto !important;
+  scroll-behavior: smooth;
+}
+
+/* Estilização da Barra de Rolagem Interna (Estilo Cyberpunk) */
+#chatMessages::-webkit-scrollbar {
+  width: 6px;
+}
+
+#chatMessages::-webkit-scrollbar-track {
+  background: rgba(3, 7, 18, 0.2);
+}
+
+#chatMessages::-webkit-scrollbar-thumb {
+  background: rgba(0, 242, 254, 0.25);
+  border-radius: 4px;
+}
+
+#chatMessages::-webkit-scrollbar-thumb:hover {
+  background: var(--cyan-main);
+}
+
+/* Visibilidade do texto do status */
+#statusLabel {
+  color: rgba(248, 250, 252, 0.9) !important;
 }
 
 /* Mensagens */
@@ -126,17 +160,26 @@ body {
   color: var(--text-main);
 }
 
-/* Input Estilizado */
+/* Entrada de Texto (Input) Estilizada */
 .custom-input {
-  background: rgba(15, 23, 42, 0.9) !important;
-  border: 1px solid var(--border-color) !important;
-  color: #fff !important;
+  background: rgba(15, 23, 42, 0.85) !important;
+  border: 1px solid rgba(0, 242, 254, 0.25) !important;
+  color: var(--text-main) !important;
   border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-input::placeholder {
+  color: rgba(148, 163, 184, 0.6) !important;
 }
 
 .custom-input:focus {
+  background: rgba(15, 23, 42, 0.95) !important;
   border-color: var(--cyan-main) !important;
-  box-shadow: 0 0 10px var(--cyan-glow) !important;
+  box-shadow: 0 0 12px var(--cyan-glow) !important;
+  outline: none;
 }
 
 .custom-modal {
@@ -144,13 +187,22 @@ body {
   border: 1px solid var(--border-color);
 }
 
-/* Indicador de Status */
+/* Indicadores de Status */
 .status-dot {
   width: 8px;
   height: 8px;
   background-color: #10b981;
   border-radius: 50%;
   box-shadow: 0 0 8px #10b981;
+}
+
+.status-dot-sm {
+  width: 6px;
+  height: 6px;
+  background-color: var(--cyan-main);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--cyan-main);
+  display: inline-block;
 }
 
 /* Pontos Animados do Digitando */
@@ -172,10 +224,27 @@ body {
   40% { transform: scale(1); }
 }
 
-/* Ajustes Responsivos para Celular */
+/* RODAPÉ GLOBAL (Full Width, Semitransparente e Borrado) */
+.footer-global {
+  background: rgba(3, 7, 18, 0.45) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(0, 242, 254, 0.15) !important;
+  width: 100%;
+  position: relative;
+  z-index: 100;
+}
+
+.footer-global p {
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+}
+
+/* Ajustes Responsivos */
 @media (max-width: 576px) {
   .chat-card {
-    height: 85vh;
+    height: auto;
+    max-height: 70vh;
     border-radius: 12px;
   }
   
@@ -186,28 +255,4 @@ body {
   body {
     font-size: 0.9rem;
   }
-}
-#matrixCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  opacity: 0.6; /* Aumentado para dar mais destaque às letras caindo */
-  pointer-events: none;
-}
-/* Melhora a visibilidade do texto do placeholder no input */
-.custom-input::placeholder {
-  color: rgba(255, 255, 255, 0.6) !important;
-}
-
-/* Aumenta o contraste dos textos secundários e do cabeçalho */
-.text-light-50 {
-  color: #cbd5e1 !important;
-}
-
-.card-header .font-code {
-  color: #94a3b8 !important;
-  font-weight: 500;
 }

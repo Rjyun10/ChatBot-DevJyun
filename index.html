@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chatbot AI - Matrix Theme</title>
+  <title>JYUN.ai - Assistente Virtual Cyberpunk</title>
   <link rel="icon" type="image/svg+xml" href="imagem/favicon.svg">
-  <!-- Google Fonts: Inter & Fira Code (Modernas e responsivas) -->
+  <!-- Google Fonts: Inter & Fira Code -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -19,64 +19,74 @@
 </head>
 <body class="d-flex flex-column min-vh-100 dark-theme">
 
-  <!-- Canvas para a Animação Estilo Matrix / Cachoeira -->
+  <!-- Canvas para a Animação Estilo Matrix -->
   <canvas id="matrixCanvas"></canvas>
 
-  <!-- Header / Navbar -->
-  <header class="navbar-custom py-3 border-bottom border-dark-subtle shadow-lg">
+  <!-- Header / Navbar Semitransparente -->
+  <header class="navbar-custom py-3 border-bottom shadow-lg">
     <div class="container d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center gap-2">
         <span class="brand-tag">&gt;_</span>
         <h1 class="h4 mb-0 text-cyan font-code">JYUN.ai</h1>
       </div>
-      <button class="btn btn-outline-cyan btn-sm font-code" data-bs-toggle="modal" data-bs-target="#configModal">
-        <i class="bi bi-key-fill me-1"></i> API Key
-      </button>
+
+      <!-- Links Rápidos e Configuração -->
+      <div class="d-flex align-items-center gap-2">
+        <a href="https://rjyun10.github.io/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-cyan btn-sm font-code d-none d-md-inline-flex align-items-center gap-1">
+          <i class="bi bi-globe"></i> Portfólio
+        </a>
+        <a href="https://github.com/Rjyun10" target="_blank" rel="noopener noreferrer" class="btn btn-outline-cyan btn-sm font-code d-none d-md-inline-flex align-items-center gap-1">
+          <i class="bi bi-github"></i> GitHub
+        </a>
+        <button class="btn btn-cyan btn-sm font-code d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#configModal">
+          <i class="bi bi-sliders"></i> <span class="d-none d-sm-inline">Configurar</span> API
+        </button>
+      </div>
     </div>
   </header>
 
   <!-- Container Principal do Chat -->
-  <main class="container my-auto py-4 flex-grow-1 d-flex flex-column justify-content-center">
-    <div class="card chat-card shadow-lg mx-auto w-100 flex-grow-1 d-flex flex-column border-0">
+  <main class="container flex-grow-1 py-3 d-flex flex-column justify-content-center overflow-hidden">
+    <div class="card chat-card shadow-lg mx-auto w-100 d-flex flex-column border-0">
       
       <!-- Cabeçalho do Chat -->
-      <div class="card-header bg-transparent border-bottom border-dark-subtle d-flex align-items-center justify-content-between py-3">
+      <div class="card-header bg-transparent border-bottom border-dark-subtle d-flex align-items-center justify-content-between py-3 flex-shrink-0">
         <div class="d-flex align-items-center gap-2">
           <span class="status-dot"></span>
-          <span class="fw-semibold text-light-50 font-code small">SYS.ONLINE // GROQ-LLAMA3</span>
+          <span id="statusLabel" class="fw-semibold text-light font-code small">SYS.ONLINE — ASSISTENTE DEV JYUN</span>
         </div>
         <button id="clearChatBtn" class="btn btn-sm btn-link text-secondary p-0" title="Limpar conversa">
           <i class="bi bi-trash fs-5"></i>
         </button>
       </div>
 
-      <!-- Área de Mensagens -->
-      <div id="chatMessages" class="card-body overflow-auto flex-grow-1 p-3 p-md-4 d-flex flex-column gap-3">
-        <!-- Mensagem do Bot -->
+      <!-- Área de Mensagens (Rolagem APENAS aqui dentro) -->
+      <div id="chatMessages" class="card-body overflow-y-auto flex-grow-1 p-3 p-md-4 d-flex flex-column gap-3">
+        <!-- Mensagem Inicial -->
         <div class="message bot-message d-flex gap-2">
           <div class="avatar bg-cyan-subtle text-cyan rounded-circle d-flex align-items-center justify-content-center">
             <i class="bi bi-cpu-fill"></i>
           </div>
           <div class="message-content p-3 rounded-4">
-            <p class="mb-0">Sistema inicializado. Insira sua chave API da Groq para iniciar a comunicação.</p>
-            <small class="text-secondary text-end d-block mt-1 font-code">SYS_OK</small>
+            <p class="mb-0">Sistema inicializado. Sou o <strong>JYUN.ai</strong>, assistente inteligente do desenvolvedor <strong>Renan Jyun</strong>.<br><br>Você pode me perguntar sobre habilidades, projetos, princípios de código ou solicitar um orçamento sem precisar de chave. Para conversas gerais, conecte seu provedor de API no menu superior!</p>
+            <small class="text-secondary text-end d-block mt-1 font-code">SYS_READY — V2.0</small>
           </div>
         </div>
       </div>
 
-      <!-- Footer / Input -->
-      <div class="card-footer bg-transparent border-top border-dark-subtle p-3">
-        <form id="chatForm" class="d-flex gap-2">
+      <!-- Footer do Chat / Entrada de Texto -->
+      <div class="card-footer bg-transparent border-top border-dark-subtle p-3 flex-shrink-0">
+        <form id="chatForm" class="d-flex align-items-center gap-2">
           <input 
             type="text" 
             id="userInput" 
-            class="form-control custom-input" 
-            placeholder="Digite sua mensagem..." 
+            class="form-control custom-input font-code" 
+            placeholder="Pergunte sobre 'projetos', 'stack' ou digite 'tudo sobre o dev'..." 
             autocomplete="off" 
             required
           />
-          <button type="submit" id="sendBtn" class="btn btn-cyan d-flex align-items-center gap-2">
-            <span class="d-none d-sm-inline">Enviar</span>
+          <button type="submit" id="sendBtn" class="btn btn-cyan d-flex align-items-center gap-2 px-3">
+            <span class="d-none d-sm-inline font-code">Enviar</span>
             <i class="bi bi-send-fill"></i>
           </button>
         </form>
@@ -84,35 +94,70 @@
     </div>
   </main>
 
-  <!-- Modal Configuração API -->
+  <!-- Modal Configuração API Multi-Provider -->
   <div class="modal fade" id="configModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content custom-modal border-0">
         <div class="modal-header border-bottom border-secondary-subtle">
-          <h5 class="modal-title font-code text-cyan"><i class="bi bi-sliders me-2"></i>Configurar Groq API</h5>
+          <h5 class="modal-title font-code text-cyan"><i class="bi bi-sliders me-2"></i>Conectar Provedor de IA</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <p class="text-secondary small">
-            Para obter uma chave gratuita sem restrição de idade rigorosa do Google, cadastre-se no 
-            <a href="https://console.groq.com/keys" target="_blank" class="text-cyan">Groq Console</a> (Gratuito e instantâneo).
-          </p>
           <div class="mb-3">
-            <label for="apiKeyInput" class="form-label font-code small text-light">Groq API Key (gsk_...):</label>
-            <input type="password" class="form-control custom-input" id="apiKeyInput" placeholder="gsk_..." />
+            <label for="apiProviderSelect" class="form-label font-code small text-light">Selecione o Provedor:</label>
+            <select id="apiProviderSelect" class="form-select custom-input font-code">
+              <option value="groq">Groq Console (Gratuito e Rápido)</option>
+              <option value="openai">OpenAI (GPT-4o / GPT-3.5)</option>
+              <option value="gemini">Google Gemini AI</option>
+            </select>
           </div>
+
+          <div class="mb-3">
+            <label for="apiKeyInput" class="form-label font-code small text-light" id="apiKeyLabel">Sua Chave de API:</label>
+            <input type="password" class="form-control custom-input" id="apiKeyInput" placeholder="Cole sua chave aqui..." />
+          </div>
+
+          <p class="text-secondary small mb-0" id="providerHelpText">
+            Obtenha no <a href="https://console.groq.com/keys" target="_blank" class="text-cyan">Groq Console</a>.
+          </p>
         </div>
         <div class="modal-footer border-top border-secondary-subtle">
           <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" id="saveApiKeyBtn" class="btn btn-cyan btn-sm">Salvar Chave</button>
+          <button type="button" id="saveApiKeyBtn" class="btn btn-cyan btn-sm">Salvar Chave Temporária</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Rodapé -->
-  <footer class="text-center py-2 text-secondary small font-code">
-    JYUN.dev // Powered by Groq API
+  <!-- Modal do Sistema para Mensagens/Alertas -->
+  <div class="modal fade" id="systemNoticeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content custom-modal border-0 shadow-lg">
+        <div class="modal-header border-bottom border-secondary-subtle">
+          <h5 class="modal-title font-code text-cyan d-flex align-items-center gap-2" id="noticeTitle">
+            <i class="bi bi-info-circle-fill"></i> Notificação do Sistema
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body font-code text-light" id="noticeBody">
+          <!-- Conteúdo da notificação via JS -->
+        </div>
+        <div class="modal-footer border-top border-secondary-subtle">
+          <button type="button" class="btn btn-cyan btn-sm" data-bs-dismiss="modal">Entendido</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RODAPÉ FULL WIDTH (ESTILIZADO, SEMITRANSPARENTE E CENTRALIZADO) -->
+  <footer class="footer-global py-3 border-top position-relative mt-auto">
+    <div class="container text-center font-code">
+      <p class="mb-0 small text-secondary">
+        <span class="text-cyan fw-semibold">&copy; 2026 Dev JYUN</span> 
+        <span class="opacity-50 mx-2">•</span> 
+        Engenhando interfaces modernas, código limpo e soluções de alto impacto.
+      </p>
+    </div>
   </footer>
 
   <!-- Bootstrap JS -->
