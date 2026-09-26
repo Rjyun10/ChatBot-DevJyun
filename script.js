@@ -421,11 +421,12 @@ chatForm.addEventListener("submit", async (e) => {
   }
 
   // 2. Se NÃO for do escopo E o usuário NÃO tiver chave de API conectada:
+
   if (!activeKey) {
     setTimeout(() => {
       appendMessage(
         "bot", 
-        "Essa pergunta foge um pouco do meu foco principal (que é falar sobre a carreira e os projetos do Renan Jyun). Para conversas gerais e outras dúvidas, clique no botão ( Configurar API ) no menu superior e adicione sua chave de API!"
+        "Essa pergunta foge do meu escopo principal (que é falar sobre o Dev Jyun). Para conversas gerais e outras dúvidas, clique no botão Configurar API no topo e adicione sua chave!"
       );
       toggleInput(true);
       userInput.focus();
