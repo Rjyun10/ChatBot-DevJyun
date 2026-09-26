@@ -1,0 +1,213 @@
+:root {
+  --bg-dark: #030712;
+  --card-bg: rgba(15, 23, 42, 0.75);
+  --cyan-main: #00f2fe;
+  --cyan-glow: rgba(0, 242, 254, 0.3);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Tipografia Global */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  overflow-x: hidden;
+  position: relative;
+}
+
+.font-code {
+  font-family: 'Fira Code', monospace;
+}
+
+/* Canvas da Animação estilo Matrix / Cachoeira */
+#matrixCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Custom Navbar */
+.navbar-custom {
+  background: rgba(3, 7, 18, 0.85);
+  backdrop-filter: blur(10px);
+}
+
+.brand-tag {
+  color: var(--cyan-main);
+  font-family: 'Fira Code', monospace;
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.text-cyan {
+  color: var(--cyan-main) !important;
+}
+
+.btn-cyan {
+  background-color: var(--cyan-main);
+  color: #000;
+  font-weight: 600;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-cyan:hover {
+  background-color: #4facfe;
+  color: #000;
+  box-shadow: 0 0 15px var(--cyan-glow);
+}
+
+.btn-outline-cyan {
+  border: 1px solid var(--cyan-main);
+  color: var(--cyan-main);
+}
+
+.btn-outline-cyan:hover {
+  background: var(--cyan-main);
+  color: #000;
+  box-shadow: 0 0 10px var(--cyan-glow);
+}
+
+/* Card Principal do Chat */
+.chat-card {
+  max-width: 850px;
+  max-height: 80vh;
+  background: var(--card-bg) !important;
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color) !important;
+  border-radius: 16px;
+}
+
+#chatMessages {
+  max-height: 550px;
+  min-height: 300px;
+}
+
+/* Mensagens */
+.message {
+  max-width: 88%;
+}
+
+.user-message {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.bot-message {
+  align-self: flex-start;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  font-size: 1rem;
+}
+
+.bg-cyan-subtle {
+  background: rgba(0, 242, 254, 0.15);
+}
+
+.user-message .message-content {
+  background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+  color: #fff;
+}
+
+.bot-message .message-content {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+}
+
+/* Input Estilizado */
+.custom-input {
+  background: rgba(15, 23, 42, 0.9) !important;
+  border: 1px solid var(--border-color) !important;
+  color: #fff !important;
+  border-radius: 8px;
+}
+
+.custom-input:focus {
+  border-color: var(--cyan-main) !important;
+  box-shadow: 0 0 10px var(--cyan-glow) !important;
+}
+
+.custom-modal {
+  background: #0f172a;
+  border: 1px solid var(--border-color);
+}
+
+/* Indicador de Status */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+}
+
+/* Pontos Animados do Digitando */
+.typing-dots span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--cyan-main);
+  margin: 0 2px;
+  animation: typing 1.4s infinite ease-in-out both;
+}
+
+.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+/* Ajustes Responsivos para Celular */
+@media (max-width: 576px) {
+  .chat-card {
+    height: 85vh;
+    border-radius: 12px;
+  }
+  
+  .message {
+    max-width: 95%;
+  }
+
+  body {
+    font-size: 0.9rem;
+  }
+}
+#matrixCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.6; /* Aumentado para dar mais destaque às letras caindo */
+  pointer-events: none;
+}
+/* Melhora a visibilidade do texto do placeholder no input */
+.custom-input::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Aumenta o contraste dos textos secundários e do cabeçalho */
+.text-light-50 {
+  color: #cbd5e1 !important;
+}
+
+.card-header .font-code {
+  color: #94a3b8 !important;
+  font-weight: 500;
+}
